@@ -27,8 +27,8 @@ def is_cm_available(base_url, auth):
         r = requests.get(full_url, auth=auth)
         if r.ok:
             return True
-        else:
-            return False
+        elif r.status_code == 401:
+            logger.error("Server replied \"401 Unauthorized\"; check your username and password.")
     except ConnectionError as e:
         return False
 
