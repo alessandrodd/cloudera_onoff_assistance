@@ -6,6 +6,7 @@ import logging
 import time
 import socket
 import ConfigParser
+from subprocess import Popen, PIPE, STDOUT
 
 logging.basicConfig(format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M:%S')
