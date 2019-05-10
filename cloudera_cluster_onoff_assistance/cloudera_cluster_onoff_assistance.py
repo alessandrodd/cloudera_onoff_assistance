@@ -67,7 +67,7 @@ def get_unavailable_hosts(base_url, auth, hosts):
 def get_cm_host_from_config(cm_config_path):
     cm_config = ConfigParser.ConfigParser()
     cm_config.read(cm_config_path)
-    cm_host = config.get("General", "server_host")
+    cm_host = cm_config.get("General", "server_host")
     logger.debug("CM Server host read from configuration: {0}".format(cm_host))
     return cm_host
 
