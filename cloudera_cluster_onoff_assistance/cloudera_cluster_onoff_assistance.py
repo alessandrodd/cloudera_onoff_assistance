@@ -197,20 +197,19 @@ def main():
                                          cm_port, API_ROOT, API_VERSION)
     auth = HTTPDigestAuth(cm_user, cm_pass)
 
+    # Wait for CM Server to come online
+    start_time = time.time()
+    while True:
+        now = time.time()
+        if is_cm_available(url, auth):
+            break
+        if now - start_time > max_wait:
+            logger.error("Error; CM Server didn't become available in {0} seconds".format(max_wait))
+            exit(1)
+        logger.info("CM Server not available; sleeping 15 seconds and retrying...")
+        time.sleep(15)
+
     if action == "restart":
-
-        # Wait for CM Server to come online
-        start_time = time.time()
-        while True:
-            now = time.time()
-            if is_cm_available(url, auth):
-                break
-            if now - start_time > max_wait:
-                logger.error("Error; CM Server didn't become available in {0} seconds".format(max_wait))
-                exit(1)
-            logger.info("CM Server not available; sleeping 15 seconds and retrying...")
-            time.sleep(15)
-
         # Wait for all Cluster hosts to be online
         start_time = time.time()
         hosts = get_hosts(url, auth)
