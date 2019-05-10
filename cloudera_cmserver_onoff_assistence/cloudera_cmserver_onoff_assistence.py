@@ -40,11 +40,31 @@ def is_postgres_running(host):
     sock.close()
     return is_open
 
+def execute_command(cmd, args):
+    cmd_list = [cmd] + args
+    logger.debug(" ".join(map(str, cmd)))
+    p = Popen(cmd, shell=False, stdin=PIPE, stdout=PIPE,
+              stderr=STDOUT, close_fds=True)
+    output = p.communicate()[0]
+    logger.debug(output)
+    if p.returncode != 0:
+        logger.warn("Return code != 0 !")
+    return p.returncode
+
 def restart_cm_server():
-    os.system("service cloudera-scm-server restart")
+    logger.info("Restarting cloudera-scm-server service")
+    rc = execute_command("service", ["cloudera-scm-server", "restart"])
+    if rc!=0:
+        logger.error("Failed to restart service. See debug log for more information")
+    else logger.info("cloudera-scm-server restarted")
 
 def stop_cm_server():
-    os.system("service cloudera-scm-server stop")
+    logger.info("Stopping cloudera-scm-server service")
+    rc = execute_command("service", ["cloudera-scm-server", "stop"])
+    if rc!=0:
+        logger.error("Failed to stop service. See debug log for more information")
+    else logger.info("cloudera-scm-server stopped")
+
 
 def main():
     parser = argparse.ArgumentParser(
