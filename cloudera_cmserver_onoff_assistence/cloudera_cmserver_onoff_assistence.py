@@ -56,14 +56,16 @@ def restart_cm_server():
     rc = execute_command("service", ["cloudera-scm-server", "restart"])
     if rc!=0:
         logger.error("Failed to restart service. See debug log for more information")
-    else logger.info("cloudera-scm-server restarted")
+    else:
+        logger.info("cloudera-scm-server restarted")
 
 def stop_cm_server():
     logger.info("Stopping cloudera-scm-server service")
     rc = execute_command("service", ["cloudera-scm-server", "stop"])
     if rc!=0:
         logger.error("Failed to stop service. See debug log for more information")
-    else logger.info("cloudera-scm-server stopped")
+    else:
+        logger.info("cloudera-scm-server stopped")
 
 
 def main():
