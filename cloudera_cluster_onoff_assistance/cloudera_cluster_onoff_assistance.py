@@ -29,6 +29,7 @@ def is_cm_available(base_url, auth):
             return True
         elif r.status_code == 401:
             logger.error("Server replied \"401 Unauthorized\"; check your username and password.")
+            exit(401)
     except ConnectionError as e:
         return False
 
