@@ -118,7 +118,7 @@ def main():
     if action == "restart":
         # if DB was not explicitly provided, get it from the db.properties file
 
-        if db_host is None:
+        if not db_host:
             logger.debug("Loading db host from db.properties")
             props = load_properties(db_config_path)
             db_host = props["com.cloudera.cmf.db.host"]
