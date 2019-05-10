@@ -43,8 +43,8 @@ def is_postgres_running(host):
 
 def execute_command(cmd, args):
     cmd_list = [cmd] + args
-    logger.debug(" ".join(map(str, cmd)))
-    p = Popen(cmd, shell=False, stdin=PIPE, stdout=PIPE,
+    logger.debug(" ".join(map(str, cmd_list)))
+    p = Popen(cmd_list, shell=False, stdin=PIPE, stdout=PIPE,
               stderr=STDOUT, close_fds=True)
     output = p.communicate()[0]
     logger.debug(output)
