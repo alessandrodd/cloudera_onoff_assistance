@@ -117,9 +117,12 @@ def main():
 
     if action == "restart":
         # if DB was not explicitly provided, get it from the db.properties file
+
         if db_host is None:
+            logger.debug("Loading db host from db.properties")
             props = load_properties(db_config_path)
             db_host = props["com.cloudera.cmf.db.host"]
+        logger.info("Current CM database is {0}".format(db_host))
 
         # wait for the DB to come online
         start_time = time.time()
