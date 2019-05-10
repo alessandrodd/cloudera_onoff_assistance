@@ -5,6 +5,7 @@ import argparse
 import logging
 import time
 import socket
+import ConfigParser
 
 logging.basicConfig(format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M:%S')
