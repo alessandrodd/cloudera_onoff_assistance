@@ -14,6 +14,8 @@ formatter = logging.Formatter(
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+script_path = os.path.dirname(os.path.realpath(__file__))
+
 # api example: http://myhost.example.com:7180/api/v10/clusters/cluster/commands/restart
 API_ROOT = "/api"
 API_VERSION = "v10"
@@ -148,13 +150,16 @@ def main():
     parser.add_argument(
         '--log-file', type=str, help='Path for the log file', required=False)
     parser.add_argument(
-        '--config-file', type=str, help='Path for the config.ini file. Default: ./config.ini', required=False, default='./config.ini')
+        '--config-file', type=str, help='Path for the config.ini file. Default: config.ini in the same path as the script', required=False)
     # Array for all arguments passed to script
     args = parser.parse_args()
 
     # parse the configuration file
     config = ConfigParser.ConfigParser()
-    config.read(args.config_file)
+    if args.config_file is not None:
+        config.read(args.config_file)
+    else:
+        config.read(os.path.join(script_path, "config.ini"))
     cm_host = config.get("Main", "cm_host")
     cm_port = config.get("Main", "cm_port")
     cm_user = config.get("Main", "cm_user")
