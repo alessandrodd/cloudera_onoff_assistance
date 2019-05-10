@@ -129,6 +129,7 @@ def main():
         while True:
             now = time.time()
             if is_postgres_running(db_host):
+                logger.info("Database {0} is running".format(db_host))
                 break
             elif now - start_time > max_wait:
                 logger.error("Postgres seem to not be reachable; trying to start CMS anyway")
