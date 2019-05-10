@@ -202,6 +202,7 @@ def main():
     while True:
         now = time.time()
         if is_cm_available(url, auth):
+            logger.info("CM Server running at {0} is online".format(url))
             break
         if now - start_time > max_wait:
             logger.error("Error; CM Server didn't become available in {0} seconds".format(max_wait))
