@@ -208,7 +208,7 @@ def main():
     while True:
         now = time.time()
         if is_cm_available(url, auth):
-            logger.info("CM Server running at {0} is online".format(url))
+            logger.info("CM API running at {0}. CM Server is online.".format(url))
             break
         if now - start_time > max_wait:
             logger.error("Error; CM Server didn't become available in {0} seconds".format(max_wait))
@@ -218,6 +218,7 @@ def main():
 
     if action == "restart":
         # Wait for all Cluster hosts to be online
+        logger.info("Trying a first restart of the CM Services...")
         start_time = time.time()
         hosts = get_hosts(url, auth)
         while True:
