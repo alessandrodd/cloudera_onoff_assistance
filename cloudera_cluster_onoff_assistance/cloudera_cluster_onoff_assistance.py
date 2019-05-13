@@ -76,10 +76,30 @@ def get_cm_host_from_config(cm_config_path):
     return cm_host
 
 
+def wait_for_command(base_url, auth, command_id):
+    full_url = base_url + "/commands/{0}".format(command_id)
+    while True:
+        # let's sleep the first time too because the command takes some time to appear 
+        # in the API
+        logger.info("Waiting for command {0} to finish...".format(command_id))
+        time.sleep(10)
+        r = requests.post(full_url, auth=auth, json={})
+        if r.ok:
+            data = r.json()
+            if data[active] is False:
+                break
+        else:
+            r.raise_for_status()
+    logger.info("Command \"{0}\" finished".format(command_id))
+
+    
 def restart_cm_services(base_url, auth):
     full_url = base_url + "/cm/service/commands/restart"
     r = requests.post(full_url, auth=auth, json={})
     if r.ok:
+        data = r.json()
+        logger.debug("Command id:{0}".format(data["id"]))
+        wait_for_command(base_url, auth, data["id"])
         logger.info("CM Services restarted")
     else:
         r.raise_for_status()
@@ -89,6 +109,9 @@ def restart_cluster(base_url, auth, cluster):
     full_url = base_url + "/clusters/{0}/commands/restart".format(cluster)
     r = requests.post(full_url, auth=auth, json={})
     if r.ok:
+        data = r.json()
+        logger.debug("Command id:{0}".format(data["id"]))
+        wait_for_command(base_url, auth, data["id"])
         logger.info("Cluster \"{0}\" restarted".format(cluster))
     else:
         r.raise_for_status()
@@ -109,6 +132,9 @@ def stop_cm_services(base_url, auth):
     full_url = base_url + "/cm/service/commands/stop"
     r = requests.post(full_url, auth=auth, json={})
     if r.ok:
+        data = r.json()
+        logger.debug("Command id:{0}".format(data["id"]))
+        wait_for_command(base_url, auth, data["id"])
         logger.info("CM Services stopped")
     else:
         r.raise_for_status()
@@ -118,7 +144,10 @@ def stop_cluster(base_url, auth, cluster):
     full_url = base_url + "/clusters/{0}/commands/stop".format(cluster)
     r = requests.post(full_url, auth=auth, json={})
     if r.ok:
-        logger.inf("Cluster \"{0}\" stopped".format(cluster))
+        data = r.json()
+        logger.debug("Command id:{0}".format(data["id"]))
+        wait_for_command(base_url, auth, data["id"])
+        logger.info("Cluster \"{0}\" stopped".format(cluster))
     else:
         r.raise_for_status()
 
