@@ -158,7 +158,7 @@ def stop_all_clusters(base_url, auth):
     if r.ok:
         data = r.json()
         for item in data["items"]:
-            restart_cluster(base_url, auth, item["name"])
+            stop_cluster(base_url, auth, item["name"])
     else:
         r.raise_for_status()
 
