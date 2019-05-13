@@ -86,7 +86,7 @@ def wait_for_command(base_url, auth, command_id):
         r = requests.get(full_url, auth=auth)
         if r.ok:
             data = r.json()
-            if data[active] is False:
+            if data["active"] is False:
                 break
         else:
             r.raise_for_status()
