@@ -219,6 +219,7 @@ def main():
     if action == "restart":
         # Wait for all Cluster hosts to be online
         logger.info("Trying a first restart of the CM Services...")
+        restart_cm_services(url, auth)
         start_time = time.time()
         hosts = get_hosts(url, auth)
         while True:
