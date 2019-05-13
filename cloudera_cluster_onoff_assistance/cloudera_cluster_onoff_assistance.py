@@ -78,7 +78,7 @@ def get_cm_host_from_config(cm_config_path):
 
 def restart_cm_services(base_url, auth):
     full_url = base_url + "/cm/service/commands/restart"
-    r = requests.post(full_url, auth=auth)
+    r = requests.post(full_url, auth=auth, json={})
     if r.ok:
         logger.info("CM Services restarted")
     else:
@@ -87,9 +87,9 @@ def restart_cm_services(base_url, auth):
 
 def restart_cluster(base_url, auth, cluster):
     full_url = base_url + "/clusters/{0}/commands/restart".format(cluster)
-    r = requests.post(full_url, auth=auth)
+    r = requests.post(full_url, auth=auth, json={})
     if r.ok:
-        logger.inf("Cluster \"{0}\" restarted".format(cluster))
+        logger.info("Cluster \"{0}\" restarted".format(cluster))
     else:
         r.raise_for_status()
 
@@ -107,7 +107,7 @@ def restart_all_clusters(base_url, auth):
 
 def stop_cm_services(base_url, auth):
     full_url = base_url + "/cm/service/commands/stop"
-    r = requests.post(full_url, auth=auth)
+    r = requests.post(full_url, auth=auth, json={})
     if r.ok:
         logger.info("CM Services stopped")
     else:
@@ -116,7 +116,7 @@ def stop_cm_services(base_url, auth):
 
 def stop_cluster(base_url, auth, cluster):
     full_url = base_url + "/clusters/{0}/commands/stop".format(cluster)
-    r = requests.post(full_url, auth=auth)
+    r = requests.post(full_url, auth=auth, json={})
     if r.ok:
         logger.inf("Cluster \"{0}\" stopped".format(cluster))
     else:
