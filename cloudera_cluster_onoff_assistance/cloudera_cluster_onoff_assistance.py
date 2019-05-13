@@ -6,7 +6,7 @@ import logging
 import time
 import ConfigParser
 import requests
-from requests.auth import HTTPDigestAuth
+from requests.auth import HTTPBasicAuth
 
 logging.basicConfig(format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M:%S')
@@ -197,7 +197,7 @@ def main():
 
     url = "http://{0}:{1}{2}/{3}".format(cm_host,
                                          cm_port, API_ROOT, API_VERSION)
-    auth = HTTPDigestAuth(cm_user, cm_pass)
+    auth = HTTPBasicAuth(cm_user, cm_pass)
 
     # Wait for CM Server to come online
     start_time = time.time()
