@@ -83,7 +83,7 @@ def wait_for_command(base_url, auth, command_id):
         # in the API
         logger.info("Waiting for command {0} to finish...".format(command_id))
         time.sleep(10)
-        r = requests.post(full_url, auth=auth, json={})
+        r = requests.get(full_url, auth=auth)
         if r.ok:
             data = r.json()
             if data[active] is False:
