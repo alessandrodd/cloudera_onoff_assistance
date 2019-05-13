@@ -30,7 +30,7 @@ def is_cm_available(base_url, auth):
         elif r.status_code == 401:
             logger.error("Server replied \"401 Unauthorized\"; check your username and password.")
             exit(401)
-    except ConnectionError as e:
+    except requests.ConnectionError as e:
         return False
 
 def get_hosts(base_url, auth):
