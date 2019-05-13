@@ -37,7 +37,8 @@ def get_hosts(base_url, auth):
     full_url = base_url + "/hosts"
     r = requests.get(full_url, auth=auth)
     if r.ok:
-        items = r["items"]
+        data = r.json()
+        items = data["items"]
         hosts = []
         for item in items:
             if item["commissionState"] == "COMMISSIONED":
@@ -52,7 +53,8 @@ def get_host_availability(base_url, auth, host_id):
     full_url = base_url + "/hosts/{0}".format(host_id)
     r = requests.get(full_url, auth=auth)
     if r.ok:
-        return host_id, r["ipAddress"], r["hostname"], r["healthSummary"]
+        data = r.json()
+        return host_id, data["ipAddress"], data["hostname"], data["healthSummary"]
     else:
         r.raise_for_status()
 
@@ -96,7 +98,8 @@ def restart_all_clusters(base_url, auth):
     full_url = base_url + "/clusters"
     r = requests.get(full_url, auth=auth)
     if r.ok:
-        for item in r["items"]:
+        data = r.json()
+        for item in data["items"]:
             restart_cluster(base_url, auth, item["name"])
     else:
         r.raise_for_status()
@@ -124,7 +127,8 @@ def stop_all_clusters(base_url, auth):
     full_url = base_url + "/clusters"
     r = requests.get(full_url, auth=auth)
     if r.ok:
-        for item in r["items"]:
+        data = r.json()
+        for item in data["items"]:
             restart_cluster(base_url, auth, item["name"])
     else:
         r.raise_for_status()
